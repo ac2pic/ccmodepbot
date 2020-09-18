@@ -122,3 +122,4 @@ coverage
 lib
 
 **/*/mock-cert.pem
+.vscode/*

@@ -1,0 +1,36 @@
+{
+  "name": "ccmodepbot",
+  "version": "1.0.0",
+  "description": "Like dependabot but for CrossCode mod repos",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "probot run ./lib/index.js",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ac2pic/ccmodepbot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ac2pic/ccmodepbot/issues"
+  },
+  "homepage": "https://github.com/ac2pic/ccmodepbot#readme",
+  "dependencies": {
+    "@types/mongodb": "^3.5.27",
+    "@types/semver": "^7.3.4",
+    "mongodb": "^3.6.2",
+    "probot": "^10.2.0",
+    "typescript": "^4.0.2",
+    "semver": "^7.3.2"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.14",
+    "jest": "^26.4.2",
+    "nock": "^13.0.4",
+    "ts-jest": "^26.3.0",
+    "smee-client": "^1.2.2"
+  }
+}
