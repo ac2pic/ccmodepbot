@@ -12,7 +12,7 @@ export default class DependencyChecker {
         let outdated: ModsVersions = {};
         for (const [name, version] of Object.entries(dependencies)) {
             const latestVersion = latestVersions[name];
-            if (latestVersion) {
+            if (latestVersion && semver.validRange(version)) {
                 if (!semver.satisfies(latestVersion, version)) {
                     if (semver.gtr(latestVersion, version)) {
                         outdated[name] = latestVersion;
