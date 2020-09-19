@@ -1,24 +1,40 @@
 import semver from 'semver';
-declare type Semver = string; 
-declare type ModsVersions = Record<string, Semver>;
+import {ModDependencies, ModDependencyDetails} from 'ultimate-crosscode-typedefs/file-types/mod-manifest';
 
-declare type Manifest = {
-    dependencies: ModsVersions;
-};
 
 export default class DependencyChecker {
 
-    static findOutdated(dependencies: ModsVersions, latestVersions: ModsVersions): ModsVersions {
-        let outdated: ModsVersions = {};
+    static findOutdated(dependencies: ModDependencies, latestVersions: Record<string, string>): ModDependencies {
+        let outdated: ModDependencies = {};
         for (const [name, version] of Object.entries(dependencies)) {
             const latestVersion = latestVersions[name];
-            if (latestVersion && semver.validRange(version)) {
-                if (!semver.satisfies(latestVersion, version)) {
-                    if (semver.gtr(latestVersion, version)) {
-                        outdated[name] = latestVersion;
+            let currentVersion: string;
+            let optional = false; 
+            
+            if (typeof version !== "string") {
+                currentVersion = version.version;
+                optional = !!version.optional;
+            } else {
+                currentVersion = version;
+            }
+
+            if (latestVersion) {
+                if (semver.validRange(currentVersion)) {
+                    if (!semver.satisfies(latestVersion, currentVersion)) {
+                        if (semver.gtr(latestVersion, currentVersion)) {
+                            if (optional) {
+                                outdated[name] = <ModDependencyDetails>{
+                                    version: latestVersion,
+                                    optional: optional
+                                };
+                            } else {
+                                outdated[name] = latestVersion;
+                            }
+                        }
                     }
                 }
             }
+
         }
         return outdated;
     }
